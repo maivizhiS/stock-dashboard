@@ -55,9 +55,6 @@ st.markdown("""
     font-weight: 700;
     margin: 30px 0 15px 0;
     box-shadow: 0 4px 15px rgba(124,58,237,0.25);
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
 /* ── METRIC CARDS ── */
@@ -67,19 +64,10 @@ div[data-testid="metric-container"] {
     padding: 20px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     border-top: 5px solid #7c3aed;
-    transition: transform 0.2s ease;
 }
 div[data-testid="metric-container"]:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(124,58,237,0.2);
-}
-
-/* ── INFO BOXES ── */
-.stAlert {
-    border-radius: 14px !important;
-    border: none !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07) !important;
-    font-weight: 600 !important;
 }
 
 /* ── SIDEBAR ── */
@@ -88,7 +76,7 @@ section[data-testid="stSidebar"] {
     padding: 20px 10px !important;
 }
 
-/* Sidebar heading */
+/* Sidebar text */
 section[data-testid="stSidebar"] h1,
 section[data-testid="stSidebar"] h2,
 section[data-testid="stSidebar"] h3,
@@ -98,7 +86,7 @@ section[data-testid="stSidebar"] label {
     font-weight: 600 !important;
 }
 
-/* ── SELECTBOX SELECTED VALUE ── */
+/* Selectbox */
 section[data-testid="stSidebar"] div[data-baseweb="select"] {
     background-color: #f1f5f9 !important;
     border-radius: 10px !important;
@@ -110,7 +98,7 @@ section[data-testid="stSidebar"] div[data-baseweb="select"] * {
     font-size: 0.95rem !important;
 }
 
-/* ── DROPDOWN OPTIONS LIST ── */
+/* Dropdown options */
 div[data-baseweb="popover"],
 div[data-baseweb="popover"] * {
     background-color: #f1f5f9 !important;
@@ -122,7 +110,7 @@ div[data-baseweb="popover"] li:hover {
     color: #1e1b4b !important;
 }
 
-/* ── DATE INPUT ── */
+/* Date input */
 section[data-testid="stSidebar"] div[data-baseweb="input"],
 section[data-testid="stSidebar"] div[data-baseweb="input"] * {
     background-color: #f1f5f9 !important;
@@ -137,26 +125,14 @@ section[data-testid="stSidebar"] input {
     font-size: 0.95rem !important;
 }
 
-/* ── CHECKBOX ── */
+/* Checkbox */
 section[data-testid="stSidebar"] .stCheckbox label p {
     color: #cbd5e1 !important;
     font-size: 0.95rem !important;
     font-weight: 500 !important;
 }
 
-/* ── SIDEBAR DIVIDER ── */
-section[data-testid="stSidebar"] hr {
-    border-color: #334155 !important;
-}
-
-/* ── DATAFRAME ── */
-.stDataFrame {
-    border-radius: 14px !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
-    overflow: hidden !important;
-}
-
-/* ── FOOTER ── */
+/* Footer */
 .footer {
     background: linear-gradient(135deg, #1e40af, #7c3aed, #0f766e);
     color: white;
@@ -170,7 +146,7 @@ section[data-testid="stSidebar"] hr {
     letter-spacing: 0.5px;
 }
 
-/* ── DIVIDER ── */
+/* Divider */
 hr {
     border: none !important;
     height: 2px !important;
@@ -180,7 +156,7 @@ hr {
     opacity: 0.3 !important;
 }
 
-/* ── PLOTLY CHART CONTAINER ── */
+/* Chart container */
 .stPlotlyChart {
     border-radius: 16px !important;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
@@ -214,7 +190,7 @@ stock = st.sidebar.selectbox(
 
 st.sidebar.markdown("### 📅 Date Range")
 start_date = st.sidebar.date_input("Start Date", pd.to_datetime("2023-01-01"))
-end_date = st.sidebar.date_input("End Date", pd.to_datetime("today"))
+end_date   = st.sidebar.date_input("End Date",   pd.to_datetime("today"))
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📊 Charts to Display")
@@ -239,7 +215,7 @@ with st.spinner(f"⏳ Fetching {stock} data..."):
     data = yf.download(stock, start=start_date, end=end_date, progress=False)
     data.columns = data.columns.droplevel(1)
     ticker = yf.Ticker(stock)
-    info = ticker.info
+    info   = ticker.info
 
 # ══════════════════════════════════════
 # COMPANY INFO
@@ -269,12 +245,11 @@ pct_change    = round((price_change / prev_price) * 100, 2)
 high_52       = round(float(data['High'].max()), 2)
 low_52        = round(float(data['Low'].min()), 2)
 avg_volume    = round(float(data['Volume'].mean()), 0)
-total_days    = len(data)
 
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("💰 Current Price",  f"${current_price}", f"{price_change} ({pct_change}%)")
-col2.metric("📈 52 Week High",   f"${high_52}")
-col3.metric("📉 52 Week Low",    f"${low_52}")
+col1.metric("💰 Current Price",    f"${current_price}", f"${price_change} ({pct_change}%)")
+col2.metric("📈 52 Week High",     f"${high_52}")
+col3.metric("📉 52 Week Low",      f"${low_52}")
 col4.metric("📊 Avg Daily Volume", f"{avg_volume:,.0f}")
 
 st.markdown("---")
@@ -285,18 +260,18 @@ st.markdown("---")
 data['MA20'] = data['Close'].rolling(window=20).mean()
 data['MA50'] = data['Close'].rolling(window=50).mean()
 
-rsi_ind = RSIIndicator(data['Close'])
-data['RSI'] = rsi_ind.rsi()
+rsi_ind            = RSIIndicator(data['Close'])
+data['RSI']        = rsi_ind.rsi()
 
-macd_ind = MACD(data['Close'])
-data['MACD']        = macd_ind.macd()
-data['MACD_Signal'] = macd_ind.macd_signal()
-data['MACD_Hist']   = macd_ind.macd_diff()
+macd_ind           = MACD(data['Close'])
+data['MACD']       = macd_ind.macd()
+data['MACD_Signal']= macd_ind.macd_signal()
+data['MACD_Hist']  = macd_ind.macd_diff()
 
-bb_ind = BollingerBands(data['Close'])
-data['BB_Upper']  = bb_ind.bollinger_hband()
-data['BB_Lower']  = bb_ind.bollinger_lband()
-data['BB_Middle'] = bb_ind.bollinger_mavg()
+bb_ind             = BollingerBands(data['Close'])
+data['BB_Upper']   = bb_ind.bollinger_hband()
+data['BB_Lower']   = bb_ind.bollinger_lband()
+data['BB_Middle']  = bb_ind.bollinger_mavg()
 
 # ── Chart base layout ──
 def base_layout(title, y_title="Price (USD)", height=430):
@@ -338,7 +313,7 @@ if show_ma:
         line=dict(color='#10b981', width=2, dash='dot')
     ))
     fig1.update_layout(**base_layout(f"{stock} — Closing Price with Moving Averages"))
-    st.plotly_chart(fig1, use_container_width=True)
+    st.plotly_chart(fig1, width='stretch')
 
 # ══════════════════════════════════════
 # CHART 2 — CANDLESTICK + BOLLINGER
@@ -371,7 +346,7 @@ if show_bb:
         fill='tonexty', fillcolor='rgba(16,185,129,0.05)'
     ))
     fig2.update_layout(**base_layout(f"{stock} — Candlestick with Bollinger Bands"))
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width='stretch')
 
 # ══════════════════════════════════════
 # CHART 3 — VOLUME
@@ -391,7 +366,7 @@ if show_volume:
     ))
     layout3 = base_layout(f"{stock} — Trading Volume", y_title="Volume", height=370)
     fig3.update_layout(**layout3)
-    st.plotly_chart(fig3, use_container_width=True)
+    st.plotly_chart(fig3, width='stretch')
 
 # ══════════════════════════════════════
 # CHART 4 — RSI
@@ -412,7 +387,7 @@ if show_rsi:
                    annotation_text="Oversold (30)", annotation_position="right")
     layout4 = base_layout(f"{stock} — RSI Indicator", y_title="RSI Value", height=370)
     fig4.update_layout(**layout4)
-    st.plotly_chart(fig4, use_container_width=True)
+    st.plotly_chart(fig4, width='stretch')
 
 # ══════════════════════════════════════
 # CHART 5 — MACD
@@ -423,8 +398,8 @@ if show_macd:
     fig5.add_trace(go.Bar(
         x=data.index, y=data['MACD_Hist'],
         name='Histogram',
-        marker_color=['#10b981' if v >= 0 else '#ef4444' for v in data['MACD_Hist']],
-        opacity=0.6
+        marker_color=['#059669' if v >= 0 else '#dc2626' for v in data['MACD_Hist']],
+        opacity=0.7
     ))
     fig5.add_trace(go.Scatter(
         x=data.index, y=data['MACD'],
@@ -438,7 +413,7 @@ if show_macd:
     ))
     layout5 = base_layout(f"{stock} — MACD Indicator", y_title="MACD Value", height=370)
     fig5.update_layout(**layout5)
-    st.plotly_chart(fig5, use_container_width=True)
+    st.plotly_chart(fig5, width='stretch')
 
 # ══════════════════════════════════════
 # RAW DATA TABLE
@@ -446,7 +421,7 @@ if show_macd:
 st.markdown("---")
 st.markdown('<div class="section-title">📋 Recent Stock Data — Last 10 Trading Days</div>', unsafe_allow_html=True)
 display_data = data[['Open','High','Low','Close','Volume','MA20','MA50','RSI']].tail(10).round(2)
-st.dataframe(display_data, use_container_width=True)
+st.dataframe(display_data, width='stretch')
 
 # ══════════════════════════════════════
 # FOOTER
