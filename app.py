@@ -446,7 +446,7 @@ if show_macd:
 st.markdown("---")
 st.markdown('<div class="section-title">📋 Recent Stock Data — Last 10 Trading Days</div>', unsafe_allow_html=True)
 display_data = data[['Open','High','Low','Close','Volume','MA20','MA50','RSI']].tail(10).round(2)
-st.dataframe(display_data.style.background_gradient(cmap='Blues'), use_container_width=True)
+st.dataframe(display_data, use_container_width=True)
 
 # ══════════════════════════════════════
 # FOOTER
