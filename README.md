@@ -2,8 +2,6 @@
 
 A professional stock market dashboard built with Python and Streamlit.
 
-🌐 **Live App:** [Click Here to Open](https://stock-dashboard-maivizhi-2026.streamlit.app)
-
 ---
 
 ## 📌 Features
@@ -41,4 +39,4 @@ streamlit run app.py
 
 ---
 
-⭐ If you like this project, give it a star on GitHub!
+⭐ Star this repository if you like it!
