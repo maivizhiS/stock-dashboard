@@ -2,7 +2,7 @@
 
 A professional stock market dashboard built with Python and Streamlit.
 
-🌐 **Live App:** [Click Here to Open](https://stock-dashboard-maivizhi-2026.streamlit.app)
+🌐 **Live App:** https://stock-dashboard-maivizhi-2026.streamlit.app
 
 ---
 
